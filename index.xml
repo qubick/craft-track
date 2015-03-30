@@ -1,0 +1,75 @@
+<craft>
+    <parameter name="type" type="int" default="1"/>
+
+    <script type="text/openjscad">
+
+        function main() {
+
+            if (params.type === 1)
+                return track_type1();
+
+            if (params.type === 2)
+                return track_type2();
+        }
+
+        function track_type1(){
+            
+            var plate = cube([10,40,1]),
+                line = cube([2,40,0.5]);
+                
+            var base = union(
+                plate,
+                line.translate([0,0,1]),
+                line.translate([8,0,1]),
+                line.translate([-2,0,4.75]).rotateY(90),
+                line.translate([4,0,2])
+                );
+            
+            var box = cube([5.5,5,4]);
+            
+            var holder = difference(
+                box,
+                base.scale(1.2,1.2,1.2).translate([-3.25,0,-0.5])
+            );
+            return union(
+            
+                base,
+                holder.translate([2.25,5,0.25])
+            )
+        }
+
+        function track_type2(){
+    
+    var plate = cube([5,40,1]),
+        wall = cube([1,40,1.8]),
+        cover = cube([5,0.5,3.5]);
+        
+    var base = union(
+        plate,
+        wall.translate([0,0,1]), //left
+        wall.rotateY(90).translate([0,0,3.5]),
+        wall.translate([4,0,1]), //right
+        wall.rotateY(90).translate([3.2,0,3.5]),
+        cover.rotateZ(180).translate([5,40,0])
+        );
+    
+    var bottom = union(
+            cube([5,0.1,3.5]).rotateX(90),
+            cube([3,2,1]).translate([1,-2.75,0])
+        );
+        
+    var slider = union(
+            cube([2.5,3,0.75]),
+            cube([1,1,2]).translate([0.75,1,0.5]),
+            cube([3,3,1]).translate([-0.25,0,2.25])
+        );
+        
+    return union(
+        base,
+        bottom,
+        slider.translate([1.25,10,1.5])
+        );
+}
+    </script>
+</craft>
+
